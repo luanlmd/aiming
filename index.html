@@ -11,11 +11,16 @@
 		<div>
 			<div id="configs">
 				<h1>Aiming</h1>
-				<label><input type="checkbox" name="randomTime" />Random Time</label>
-				<label><input type="checkbox" name="randomSize" />Random Size</label>
-				<label><input type="checkbox" name="progressiveHardness" />Progressive Hardness</label>
-				<label><input type="checkbox" name="enableDistractions" />Enable Distrations</label>
-				<label><input type="checkbox" name="enableHostages" />Enable Hostages</label>
+				<form>
+					<label><input type="checkbox" checked name="enableSound" />Enable Sound</label>
+					<label><input type="checkbox" checked name="randomDelay" />Random Delay</label>
+					<label><input type="checkbox" checked name="randomSize" />Random Size</label>
+					<label><input type="checkbox" name="movingTarget" />Moving target</label>
+					<!--label><input type="checkbox" name="enableHostages" />Complex Target</label>
+					<label><input type="checkbox" name="progressiveHardness" />Progressive Hardness</label>
+					<label><input type="checkbox" name="enableDistractions" />Enable Distrations</label>
+					<label><input type="checkbox" name="enableHostages" />Enable Hostages</label-->
+				</form>
 				<input type="button" value="Begin" id="begin" />
 			</div>
 			<div id="target"></div>
