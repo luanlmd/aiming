@@ -11,6 +11,11 @@
         };
  })(jQuery);
 
+function rand(min, max)
+{
+	return Math.floor((Math.random()*max)+min)
+}
+
 $(document).ready(function(){
 
 	var started = false;
@@ -24,6 +29,7 @@ $(document).ready(function(){
 	var totalDelay = 0;
 	var totalShots = 0;
 	var totalHits = 0;
+	var targetOnDelay = 0;
 	var winWidth = $(window).width();
 	var winHeight = $(window).height();
 
@@ -31,66 +37,67 @@ $(document).ready(function(){
 		configs = $('form').serializeObject();
 		console.log(configs);
 		$('#configs').fadeOut(500);
-		setTimeout(function(){ nextTarget(); started = true; } ,1000);
 		
+		targetInterval = setInterval(function(){ nextTarget(); started = true; } ,100);
 	});
 
-	/*$('body').click(function(){
-		miss++;
-		console.log(miss);
-	});*/
 	$(document).click(function(e) {
 		if (started)
 		{
 			totalShots ++;
 			if (configs.enableSound)
 			{
-				randId = (new Date()).getTime();
-				$('body').append('<audio src="sounds/shot.ogg" autoplay="true" id="'+randId+'" type="audio/ogg" />');
+				id = (new Date()).getTime();
+				$('body').append('<audio src="sounds/shot.ogg" autoplay="true" id="'+id+'" type="audio/ogg" />');
 			}
 		}
 	});
 
-
-	target.click(function(){	
+	$('.target').live('click',(function(){	
 		targetShot = (new Date()).getTime();
-		target.css('display','none');
-		$(this).stop();
-		delay = targetShot - targetShown;
+		totalHits++;
+		delay = targetShot - $(this).data('shown');
 		totalDelay += delay;
 		mediumDelay = totalDelay / totalShots;
 		if (delay > maxDelay) { maxDelay = delay; }
 		if (delay < minDelay) { minDelay = delay; }
-		console.log(delay);
-		
-		nextTarget();
-	});
-
-	function rand(min, max)
-	{
-		return Math.floor((Math.random()*max)+min)
-	}
+		console.log(delay);	
+		$(this).remove();
+	}));
 
 	function nextTarget()
 	{
-		target.css('top',rand(1, winHeight-30)); 
-		target.css('left',rand(1, winWidth-30));
-		if (configs.randomSize) { target.width(rand(10,30)); target.height(rand(10,30)); }
-		if (configs.randomDelay) { setTimeout(function(){ showTarget(); },rand(1,1000)); }
-		else { showTarget(); }
+		console.log('nextTarget()');
+		targetCount = $('.target').length;
+		if ((targetCount+targetOnDelay) == 0) { showTarget(); }
+		if (configs.multipleTargets && (targetCount+targetOnDelay < 3) && (rand(1,5) == 1)) { showTarget(); }
 	}
 
 	function showTarget()
 	{
-		targetShown = (new Date()).getTime();
-		totalHits++;
-		target.show();
-		if (configs.movingTarget)
+		targetOnDelay++;
+		console.log('showTarget()');
+		delay = (configs.randomDelay)? rand(1,mediumDelay): 1;
+		setTimeout(function()
 		{
-			y = rand(1, winHeight-30);
-			x = rand(1, winWidth-30);
-			target.animate({'top':y, 'left':x},10000);
-		}
+			targetShown = (new Date()).getTime();
+			target = $('<div id="'+targetShown+'" class="target" data-shown="'+ targetShown +'" />');
+
+			target.css('top',rand(1, winHeight-30)); 
+			target.css('left',rand(1, winWidth-30));
+			if (configs.randomSize) { target.width(rand(10,30)); target.height(rand(10,30)); }
+			else { target.width(15); target.height(15); }
+
+			$('body').append(target);
+
+			if (configs.movingTarget)
+			{
+				y = rand(1, winHeight-30);
+				x = rand(1, winWidth-30);
+				target.animate({'top':y, 'left':x},10000);
+			}
+			targetOnDelay--;
+		}, delay);
 	}
 
 });
