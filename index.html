@@ -4,8 +4,25 @@
 		<title>Aiming - FPS Aim training tool</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link href="styles.css" rel="stylesheet" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="scripts.js"></script>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-683660-9']);
+  _gaq.push(['_setDomainName', 'sb.luanlmd.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 	</head>
 	<body>
 		<div id="configs">
@@ -23,16 +40,6 @@
 			</form>
 			<input type="button" value="Begin" id="begin" />
 		</div>
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-683660-20']);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-		</script>
+		<audio src="sounds/shot.ogg" autoplay="true" id="shot" type="audio/ogg" />
 	</body>
 </html>

@@ -5,15 +5,15 @@
 			object = {};
 			for (i in query)
 			{
-				object[query[i].name] = query[i].value
+				object[query[i].name] = query[i].value;
 			}
-			return object
+			return object;
         };
  })(jQuery);
 
 function rand(min, max)
 {
-	return Math.floor((Math.random()*max)+min)
+	return Math.floor((Math.random()*max)+min);
 }
 
 $(document).ready(function(){
@@ -32,6 +32,8 @@ $(document).ready(function(){
 	var targetOnDelay = 0;
 	var winWidth = $(window).width();
 	var winHeight = $(window).height();
+	
+	var shotSound = $('#shot')[0];
 
 	$('#begin').click(function(){
 		configs = $('form').serializeObject();
@@ -47,13 +49,14 @@ $(document).ready(function(){
 			totalShots ++;
 			if (configs.enableSound)
 			{
-				id = (new Date()).getTime();
-				$('body').append('<audio src="sounds/shot.ogg" autoplay="true" id="'+id+'" type="audio/ogg" />');
+				shotSound.currentTime=0;
+				shotSound.play();
 			}
 		}
 	});
 
-	$('.target').live('click',(function(){	
+	$('body').on('click','.target',(function(){	
+		console.log('hit');	
 		targetShot = (new Date()).getTime();
 		totalHits++;
 		delay = targetShot - $(this).data('shown');
@@ -61,7 +64,6 @@ $(document).ready(function(){
 		mediumDelay = totalDelay / totalShots;
 		if (delay > maxDelay) { maxDelay = delay; }
 		if (delay < minDelay) { minDelay = delay; }
-		console.log(delay);	
 		$(this).remove();
 	}));
 
@@ -69,7 +71,7 @@ $(document).ready(function(){
 	{
 		console.log('nextTarget()');
 		targetCount = $('.target').length;
-		if ((targetCount+targetOnDelay) == 0) { showTarget(); }
+		if ((targetCount+targetOnDelay) === 0) { showTarget(); }
 		if (configs.multipleTargets && (targetCount+targetOnDelay < 3) && (rand(1,5) == 1)) { showTarget(); }
 	}
 
